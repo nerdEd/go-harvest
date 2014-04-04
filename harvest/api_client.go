@@ -9,10 +9,10 @@ import (
 )
 
 type APIClient struct {
-	username   string
-	password   string
-	subdomain  string
-	httpClient *http.Client
+	Username   string
+	Password   string
+	Subdomain  string
+	HttpClient *http.Client
 
 	Client  *ClientService
 	People  *PersonService
@@ -23,12 +23,12 @@ type APIClient struct {
 
 func newAPIClient(subdomain string, httpClient *http.Client) (c *APIClient) {
 	c = new(APIClient)
-	c.subdomain = subdomain
+	c.Subdomain = subdomain
 
 	if httpClient != nil {
-		c.httpClient = httpClient
+		c.HttpClient = httpClient
 	} else {
-		c.httpClient = new(http.Client)
+		c.HttpClient = new(http.Client)
 	}
 
 	c.Client = &ClientService{Service{c}}
@@ -41,8 +41,8 @@ func newAPIClient(subdomain string, httpClient *http.Client) (c *APIClient) {
 
 func NewAPIClientWithBasicAuth(username, password, subdomain string) (c *APIClient) {
 	c = newAPIClient(subdomain, nil)
-	c.username = username
-	c.password = password
+	c.Username = username
+	c.Password = password
 	return
 }
 
@@ -57,14 +57,14 @@ func NewAPIClientWithAuthToken(token, subdomain string) (c *APIClient) {
 }
 
 func (c *APIClient) GetJSON(path string) (err error, jsonResponse []byte) {
-	resourceURL := fmt.Sprintf("https://%v.harvestapp.com%v", c.subdomain, path)
+	resourceURL := fmt.Sprintf("https://%v.harvestapp.com%v", c.Subdomain, path)
 	request, err := http.NewRequest("GET", resourceURL, nil)
 	if err != nil {
 		return
 	}
 
-	request.SetBasicAuth(c.username, c.password)
-	resp, err := c.httpClient.Do(request)
+	request.SetBasicAuth(c.Username, c.Password)
+	resp, err := c.HttpClient.Do(request)
 
 	if err != nil {
 		return
