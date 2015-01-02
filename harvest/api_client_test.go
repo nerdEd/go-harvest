@@ -1,58 +1,41 @@
 package harvest
 
-import "testing"
-import "../harvest"
+import (
+	"testing"
 
-func testServiceInitialization(client *harvest.APIClient, t *testing.T) {
-	if client.Client == nil {
-		t.Error("Client service not initialized")
-	}
-	if client.People == nil {
-		t.Error("People service not initialized")
-	}
-	if client.Project == nil {
-		t.Error("Project service not initialized")
-	}
-	if client.Invoice == nil {
-		t.Error("Invoice service not initialized")
-	}
-	if client.Account == nil {
-		t.Error("Account service not initialized")
-	}
+	"github.com/stretchr/testify/assert"
+)
+
+func assertAllClientsInitialized(client APIClient, t *testing.T) {
+	assert.NotNil(t, client.Client)
+	assert.NotNil(t, client.People)
+	assert.NotNil(t, client.Project)
+	assert.NotNil(t, client.Invoice)
+	assert.NotNil(t, client.Account)
 }
 
 func Test_NewAPIClientWithBasicAuth(t *testing.T) {
-	client := harvest.NewAPIClientWithBasicAuth(
+
+	client := NewAPIClientWithBasicAuth(
 		"Some Username",
 		"Some Password",
 		"Some Domain")
 
-	if client.Username != "Some Username" {
-		t.Error("Username not set on client")
-	}
+	assert.Equal(t, "Some Username", client.Username)
+	assert.Equal(t, "Some Password", client.Password)
+	assert.Equal(t, "Some Domain", client.Subdomain)
 
-	if client.Password != "Some Password" {
-		t.Error("Password not set on client")
-	}
-
-	if client.Subdomain != "Some Domain" {
-		t.Error("Domain not set on client")
-	}
-
-	testServiceInitialization(client, t)
-
+	assertAllClientsInitialized(*client, t)
 }
 
 func Test_NewAPIClientWithAuthToken(t *testing.T) {
-	client := harvest.NewAPIClientWithAuthToken(
+
+	client := NewAPIClientWithAuthToken(
 		"SUPER AUTH TOKEN",
 		"Some Domain")
 
 	//TODO: Test that we're setting up the httpClient with a token
 
-	if client.Subdomain != "Some Domain" {
-		t.Error("Domain not set on client")
-	}
-
-	testServiceInitialization(client, t)
+	assert.Equal(t, "Some Domain", client.Subdomain)
+	assertAllClientsInitialized(*client, t)
 }

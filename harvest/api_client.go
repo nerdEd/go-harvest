@@ -12,7 +12,7 @@ type APIClient struct {
 	Username   string
 	Password   string
 	Subdomain  string
-	HttpClient *http.Client
+	HTTPClient *http.Client
 
 	Client  *ClientService
 	People  *PersonService
@@ -26,9 +26,9 @@ func newAPIClient(subdomain string, httpClient *http.Client) (c *APIClient) {
 	c.Subdomain = subdomain
 
 	if httpClient != nil {
-		c.HttpClient = httpClient
+		c.HTTPClient = httpClient
 	} else {
-		c.HttpClient = new(http.Client)
+		c.HTTPClient = new(http.Client)
 	}
 
 	c.Client = &ClientService{Service{c}}
@@ -64,7 +64,7 @@ func (c *APIClient) GetJSON(path string) (err error, jsonResponse []byte) {
 	}
 
 	request.SetBasicAuth(c.Username, c.Password)
-	resp, err := c.HttpClient.Do(request)
+	resp, err := c.HTTPClient.Do(request)
 
 	if err != nil {
 		return

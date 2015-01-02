@@ -1,10 +1,12 @@
 package examples
 
 import (
-	"../harvest"
 	"fmt"
+
+	"github.com/nerded/go-harvest/harvest"
 )
 
+// ExerciseInvoices hits the live API w/ a Invoice request
 func ExerciseInvoices(apiClient *harvest.APIClient) {
 	err, invoices := apiClient.Invoice.List()
 	if err != nil {

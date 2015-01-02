@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"./examples"
-	"./harvest"
+	"github.com/nerded/go-harvest/examples"
+	"github.com/nerded/go-harvest/harvest"
 )
 
 func main() {

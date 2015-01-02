@@ -1,10 +1,12 @@
 package examples
 
 import (
-	"../harvest"
 	"fmt"
+
+	"github.com/nerded/go-harvest/harvest"
 )
 
+// ExercisePeople hits the live API w/ a People request
 func ExercisePeople(apiClient *harvest.APIClient) {
 	err, people := apiClient.People.List()
 	if err != nil {

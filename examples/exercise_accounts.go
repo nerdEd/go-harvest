@@ -3,9 +3,10 @@ package examples
 import (
 	"fmt"
 
-	"../harvest"
+	"github.com/nerded/go-harvest/harvest"
 )
 
+// ExerciseAccounts hits the live API w/ an Account request
 func ExerciseAccounts(apiClient *harvest.APIClient) {
 	err, account := apiClient.Account.Find()
 	if err != nil {
