@@ -5,7 +5,7 @@ import (
 )
 
 type ProjectService struct {
-	Service
+	service
 }
 
 type Project struct {

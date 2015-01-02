@@ -6,7 +6,7 @@ import (
 )
 
 type InvoiceService struct {
-	Service
+	service
 }
 
 type Invoice struct {

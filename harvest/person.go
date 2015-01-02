@@ -6,7 +6,7 @@ import (
 )
 
 type PersonService struct {
-	Service
+	service
 }
 
 type Person struct {

@@ -35,11 +35,11 @@ func newAPIClient(subdomain string, httpClient *http.Client) (c *APIClient) {
 		c.HTTPClient = new(http.Client)
 	}
 
-	c.Client = &ClientService{Service{c}}
-	c.People = &PersonService{Service{c}}
-	c.Project = &ProjectService{Service{c}}
-	c.Invoice = &InvoiceService{Service{c}}
-	c.Account = &AccountService{Service{c}}
+	c.Client = &ClientService{service{c}}
+	c.People = &PersonService{service{c}}
+	c.Project = &ProjectService{service{c}}
+	c.Invoice = &InvoiceService{service{c}}
+	c.Account = &AccountService{service{c}}
 	return
 }
 

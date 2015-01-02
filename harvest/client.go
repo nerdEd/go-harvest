@@ -5,16 +5,18 @@ import (
 	"time"
 )
 
+// ClientService wraps interactions with Harvest Client API
 type ClientService struct {
-	Service
+	service
 }
 
+// Client represents a Harvest Client
 type Client struct {
 	Name                    string    `json:"name"`
 	Currency                string    `json:"currency"`
 	Active                  bool      `json:"active"`
-	Id                      int       `json:"id"`
-	HighriseId              int       `json:"highrise_id"`
+	ID                      int       `json:"id"`
+	HighriseID              int       `json:"highrise_id"`
 	CreatedAt               time.Time `json:"created_at"`
 	UpdatedAt               time.Time `json:"created_at"`
 	Details                 string    `json:"details"`
@@ -22,13 +24,14 @@ type Client struct {
 	LastInvoiceKind         string    `json:"last_invoice_kind"`
 }
 
-type ClientResponse struct {
+type clientResponse struct {
 	Client Client
 }
 
-func (c *ClientService) List() (err error, clients []Client) {
+// List fetch all clients
+func (c *ClientService) List() (clients []Client, err error) {
 	resourceURL := "/clients.json"
-	var clientResponse []ClientResponse
+	var clientResponse []clientResponse
 	err = c.list(resourceURL, &clientResponse)
 	if err != nil {
 		return
@@ -39,10 +42,11 @@ func (c *ClientService) List() (err error, clients []Client) {
 	return
 }
 
-func (c *ClientService) Find(clientID int) (err error, client Client) {
+// Find gets single client based on ID
+func (c *ClientService) Find(clientID int) (client Client, err error) {
 	resourceURL := fmt.Sprintf("/clients/%v.json", clientID)
-	var clientResponse ClientResponse
+	var clientResponse clientResponse
 	err = c.find(resourceURL, &clientResponse)
 
-	return err, clientResponse.Client
+	return clientResponse.Client, err
 }

@@ -2,7 +2,7 @@ package harvest
 
 // AccountService wraps interaction with the API for working with Accounts
 type AccountService struct {
-	Service
+	service
 }
 
 // Company represents a Harvest Company

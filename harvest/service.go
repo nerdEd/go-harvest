@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 )
 
-type Service struct {
+type service struct {
 	apiClient *APIClient
 }
 
-func (service Service) find(resourceURL string, unmarshalContainer interface{}) (err error) {
+func (service service) find(resourceURL string, unmarshalContainer interface{}) (err error) {
 	contents, err := service.apiClient.GetJSON(resourceURL)
 	if err != nil {
 		return
@@ -19,7 +19,7 @@ func (service Service) find(resourceURL string, unmarshalContainer interface{}) 
 	return
 }
 
-func (service Service) list(resourceURL string, unmarshalContainer interface{}) (err error) {
+func (service service) list(resourceURL string, unmarshalContainer interface{}) (err error) {
 	contents, err := service.apiClient.GetJSON(resourceURL)
 	if err != nil {
 		return
