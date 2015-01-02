@@ -20,11 +20,14 @@ type APIClient struct {
 	Project *ProjectService
 	Invoice *InvoiceService
 	Account *AccountService
+
+	protocol string
 }
 
 func newAPIClient(subdomain string, httpClient *http.Client) (c *APIClient) {
 	c = new(APIClient)
 	c.Subdomain = subdomain
+	c.protocol = "https"
 
 	if httpClient != nil {
 		c.HTTPClient = httpClient
@@ -59,9 +62,13 @@ func NewAPIClientWithAuthToken(token, subdomain string) (c *APIClient) {
 	return
 }
 
+func (c *APIClient) disableSSL() {
+	c.protocol = "http"
+}
+
 // GetJSON fetches JSON data from a given URL
 func (c *APIClient) GetJSON(path string) (jsonResponse []byte, err error) {
-	resourceURL := fmt.Sprintf("https://%v.harvestapp.com%v", c.Subdomain, path)
+	resourceURL := fmt.Sprintf("%v://%v.harvestapp.com%v", c.protocol, c.Subdomain, path)
 	request, err := http.NewRequest("GET", resourceURL, nil)
 	if err != nil {
 		return

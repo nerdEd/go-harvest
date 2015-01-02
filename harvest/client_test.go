@@ -1,31 +1,31 @@
 package harvest
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_FetchAllClientsFromServerWithSuccessResponse(t *testing.T) {
-	testJSON := `{
-                  "name": "Big Government",
-                  "active": true
-               }`
 
-	b := []byte(testJSON)
+	clientsJSONResponse := `[
+                            {
+                              "name": "Big Government",
+                              "active": true
+                            }
+                          ]`
 
-	client := Client{}
-	err := json.Unmarshal(b, &client)
+	apiClient := NewAPIClientWithBasicAuth("username", "password", "subdomain")
+	s, httpClient := mockHTTPClient(200, clientsJSONResponse)
+	defer s.Close()
+	apiClient.HTTPClient = httpClient
+	apiClient.disableSSL() // What a hack
 
-	if err != nil {
-		fmt.Println("There was an error again")
-		t.Error(err)
-	}
+	// Attemp to get clients
+	err, clients := apiClient.Client.List()
 
-	assert.Equal(t, true, client.Active)
-	assert.Equal(t, "Big Government", client.Name)
+	assert.Nil(t, err)
+	assert.NotEmpty(t, clients)
 }
 
 func Test_FetchAllClientsFromServerWithFailureResponse(t *testing.T) {
