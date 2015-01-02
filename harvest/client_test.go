@@ -54,6 +54,7 @@ func Test_FetchAllClientsFromServerWithSuccessResponse(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.NotEmpty(t, clients)
+	assert.Equal(t, 2, len(clients))
 }
 
 func Test_FindClientFromServerWithSuccessResponse(t *testing.T) {
