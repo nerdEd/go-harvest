@@ -8,6 +8,7 @@ import (
 	"code.google.com/p/goauth2/oauth"
 )
 
+// APIClient entry point for interacting with the Harvest API
 type APIClient struct {
 	Username   string
 	Password   string
@@ -39,6 +40,7 @@ func newAPIClient(subdomain string, httpClient *http.Client) (c *APIClient) {
 	return
 }
 
+// NewAPIClientWithBasicAuth creates a new APIClient that uses http basic auth
 func NewAPIClientWithBasicAuth(username, password, subdomain string) (c *APIClient) {
 	c = newAPIClient(subdomain, nil)
 	c.Username = username
@@ -46,6 +48,7 @@ func NewAPIClientWithBasicAuth(username, password, subdomain string) (c *APIClie
 	return
 }
 
+// NewAPIClientWithAuthToken creates a new APIClient that uses an OAuth token
 func NewAPIClientWithAuthToken(token, subdomain string) (c *APIClient) {
 	t := &oauth.Transport{
 		Token: &oauth.Token{AccessToken: token},
@@ -56,7 +59,8 @@ func NewAPIClientWithAuthToken(token, subdomain string) (c *APIClient) {
 	return
 }
 
-func (c *APIClient) GetJSON(path string) (err error, jsonResponse []byte) {
+// GetJSON fetches JSON data from a given URL
+func (c *APIClient) GetJSON(path string) (jsonResponse []byte, err error) {
 	resourceURL := fmt.Sprintf("https://%v.harvestapp.com%v", c.Subdomain, path)
 	request, err := http.NewRequest("GET", resourceURL, nil)
 	if err != nil {
