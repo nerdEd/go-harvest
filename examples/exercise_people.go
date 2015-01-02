@@ -8,7 +8,7 @@ import (
 
 // ExercisePeople hits the live API w/ a People request
 func ExercisePeople(apiClient *harvest.APIClient) {
-	err, people := apiClient.People.List()
+	people, err := apiClient.People.List()
 	if err != nil {
 		fmt.Printf("\n%v\n", err)
 	} else {

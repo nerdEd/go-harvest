@@ -36,13 +36,13 @@ type Person struct {
 	UpdatedAt                    time.Time
 }
 
-type PersonResponse struct {
+type personResponse struct {
 	Person Person `json:"user"`
 }
 
-func (c *PersonService) List() (err error, people []Person) {
+func (c *PersonService) List() (people []Person, err error) {
 	resourceURL := "/people.json"
-	var personResponse []PersonResponse
+	var personResponse []personResponse
 	err = c.list(resourceURL, &personResponse)
 	if err != nil {
 		return
@@ -54,9 +54,9 @@ func (c *PersonService) List() (err error, people []Person) {
 	return
 }
 
-func (c *PersonService) Find(personID int) (err error, person Person) {
+func (c *PersonService) Find(personID int) (person Person, err error) {
 	resourceURL := fmt.Sprintf("/people/%v.json", personID)
-	var personResponse PersonResponse
+	var personResponse personResponse
 	err = c.find(resourceURL, &personResponse)
 	person = personResponse.Person
 	return
