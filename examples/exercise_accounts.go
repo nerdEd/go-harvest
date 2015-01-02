@@ -8,7 +8,7 @@ import (
 
 // ExerciseAccounts hits the live API w/ an Account request
 func ExerciseAccounts(apiClient *harvest.APIClient) {
-	err, account := apiClient.Account.Find()
+	account, err := apiClient.Account.Find()
 	if err != nil {
 		fmt.Printf("\n%v\n", err)
 	} else {
